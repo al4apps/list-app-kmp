@@ -1,0 +1,24 @@
+# Gradle
+.gradle/
+**/build/
+
+# Kotlin / Native
+**/*.klib
+**/*.framework
+**/*.dSYM
+
+# Android
+**/*.apk
+**/*.aab
+
+# iOS / Xcode
+Pods/
+*.xcworkspace
+DerivedData/
+
+# IDE
+.idea/
+*.iml
+
+# Logs
+*.log
