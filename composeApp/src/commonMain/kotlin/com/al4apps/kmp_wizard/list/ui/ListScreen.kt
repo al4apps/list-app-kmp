@@ -9,11 +9,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.al4apps.kmp_wizard.list.ListComponent
+import com.al4apps.kmp_wizard.list.ChildListComponent
 import ru.expasoft.digitalpictureframe.theme.LAppTheme
 
 @Composable
-fun ListScreen() {
+fun ListScreen(component: ChildListComponent) {
     Column(
         modifier = Modifier.fillMaxSize().background(Color.Yellow),
         verticalArrangement = Arrangement.Center,

@@ -13,8 +13,7 @@ import com.arkivanov.decompose.extensions.compose.stack.Children
 @Composable
 fun RootScreen(component: RootComponent) {
 
-    Scaffold(
-    ) {
+    Scaffold {
         Children(
             stack = component.stack,
             modifier = Modifier

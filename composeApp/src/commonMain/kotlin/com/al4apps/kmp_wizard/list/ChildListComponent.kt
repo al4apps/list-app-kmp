@@ -1,4 +1,4 @@
 package com.al4apps.kmp_wizard.list
 
-interface ListComponent {
+interface ChildListComponent {
 }
