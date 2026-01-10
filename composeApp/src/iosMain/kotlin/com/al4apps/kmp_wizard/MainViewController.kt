@@ -9,4 +9,6 @@ fun MainViewController() = ComposeUIViewController {
     val lifecycleRegistry = LifecycleRegistry()
     val backDispatcher = BackDispatcher()
     val componentContext = DefaultComponentContext(lifecycleRegistry, backHandler = backDispatcher)
-    App(componentContext) }
+    val appSettings: AppSettings = AppSettingsFactory().create()
+    App(componentContext, appSettings = appSettings)
+}

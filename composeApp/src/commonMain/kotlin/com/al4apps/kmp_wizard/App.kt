@@ -10,8 +10,8 @@ import ru.expasoft.digitalpictureframe.theme.LAppTheme
 
 @Composable
 @Preview
-fun App(componentContext: ComponentContext) {
+fun App(componentContext: ComponentContext, appSettings: AppSettings) {
     LAppTheme {
-        RootScreen(DefaultRootComponent(componentContext))
+        RootScreen(DefaultRootComponent(componentContext, appSettings))
     }
 }

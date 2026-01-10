@@ -1,4 +1,3 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -44,6 +43,7 @@ kotlin {
             implementation(libs.decompose)
             implementation(libs.decompose.extensions)
             implementation(libs.arkivanov.essenty.lifecycle)
+            implementation(libs.multiplatform.settings)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
