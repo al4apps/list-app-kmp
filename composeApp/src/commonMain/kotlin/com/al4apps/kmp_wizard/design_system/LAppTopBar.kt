@@ -1,6 +1,8 @@
 package com.al4apps.kmp_wizard.design_system
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -9,8 +11,10 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.al4apps.kmp_wizard.shared_models.SelectableWidgetState
 import com.al4apps.kmp_wizard.shared_models.TopBarUiState
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import ru.expasoft.digitalpictureframe.theme.LAppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,18 +41,31 @@ fun LAppTopBar(
             }
         },
         actions = {
-            state.actionIcon?.let {
-                Icon(
-                    painter = painterResource(state.actionIcon),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(24.dp)
-                        .clickable(
-                            enabled = true,
-                            onClick = { onActionClick() }
-                        )
-                )
+            Box(modifier = Modifier.padding(end = 16.dp)) {
+                state.actionIcon?.let {
+                    Icon(
+                        painter = painterResource(state.actionIcon),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(24.dp)
+                            .clickable(
+                                enabled = true,
+                                onClick = { onActionClick() }
+                            )
+                    )
+                }
+                state.selectableWidgetState?.let {
+                    SelectableWidget(state = it)
+                }
             }
         }
     )
+}
+
+@Composable
+@Preview
+fun LAppTopBarPreview() {
+    LAppTopBar(
+        TopBarUiState.INITIAL.copy(selectableWidgetState = SelectableWidgetState.INITIAL),
+        onBackClick = {})
 }
