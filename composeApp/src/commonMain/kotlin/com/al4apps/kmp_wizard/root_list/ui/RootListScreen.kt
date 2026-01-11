@@ -1,5 +1,11 @@
 package com.al4apps.kmp_wizard.root_list.ui
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -27,10 +33,13 @@ import com.al4apps.kmp_wizard.design_system.button.SimpleFAB
 import com.al4apps.kmp_wizard.root_list.PreviewRootListComponent
 import com.al4apps.kmp_wizard.root_list.RootListComponent
 import com.al4apps.kmp_wizard.root_list.model.RootListItemUiModel
+import com.al4apps.kmp_wizard.shared_models.SelectableWidgetState
+import com.al4apps.kmp_wizard.shared_models.TopBarUiState
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import kmpwizardproject.composeapp.generated.resources.Res
 import kmpwizardproject.composeapp.generated.resources.empty_list
 import kmpwizardproject.composeapp.generated.resources.ic_plus
+import kmpwizardproject.composeapp.generated.resources.root_list_title
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import ru.expasoft.digitalpictureframe.theme.LAppTheme
@@ -40,13 +49,25 @@ fun RootListScreen(component: RootListComponent) {
 
     val uiState by component.uiState.subscribeAsState()
 
+    val topBarState = TopBarUiState(
+        title = stringResource(Res.string.root_list_title),
+        selectableWidgetState = if (uiState.isInSelectionMode) {
+            SelectableWidgetState(isSelected = uiState.isAllSelected)
+        } else {
+            null
+        },
+        navIcon = null,
+        isActionClickable = uiState.isInSelectionMode,
+        actionIcon = null
+    )
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             LAppTopBar(
-                state = uiState.topBarUiState,
+                state = topBarState,
                 onBackClick = {},
-                onActionClick = { component.onSelectAllClicked() }
+                onActionClick = { component.onSelectAllClicked() },
             )
         }
     ) {
@@ -73,12 +94,21 @@ fun RootListScreen(component: RootListComponent) {
                     )
                 }
             }
-            SimpleFAB(
-                vectorRes = Res.drawable.ic_plus,
-                modifier = Modifier
-                    .padding(end = 24.dp, bottom = 32.dp)
-                    .size(48.dp)
-            ) { }
+            AnimatedVisibility(
+                visible = !uiState.isInSelectionMode,
+                modifier = Modifier.align(Alignment.BottomEnd),
+                enter = slideInVertically(tween(260), initialOffsetY = { y -> y })
+                        + fadeIn(tween(200)),
+                exit = slideOutVertically(tween(220), targetOffsetY = { y -> y })
+                + fadeOut(tween(160))
+            ) {
+                SimpleFAB(
+                    vectorRes = Res.drawable.ic_plus,
+                    modifier = Modifier
+                        .padding(end = 24.dp, bottom = 24.dp)
+                        .size(48.dp)
+                ) { }
+            }
         }
     }
 }
@@ -105,7 +135,7 @@ fun RootListGrid(
                 onLongClick = onLongClick
             )
             if (index == list.lastIndex) {
-                Spacer(modifier = Modifier.height(60.dp))
+                Spacer(modifier = Modifier.height(100.dp))
             }
         }
     }

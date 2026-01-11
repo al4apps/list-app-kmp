@@ -7,44 +7,23 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
-import androidx.compose.material3.SelectableDates
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.al4apps.kmp_wizard.shared_models.SelectableWidgetState
 import kmpwizardproject.composeapp.generated.resources.Res
 import kmpwizardproject.composeapp.generated.resources.ic_check
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.vectorResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import ru.expasoft.digitalpictureframe.theme.LAppTheme
 
 @Composable
-fun SelectableWidget(state: SelectableWidgetState) {
-    Card(
-        modifier = Modifier.size(36.dp),
-        shape = CircleShape
-    ) {
-        if (state.isSelected) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(LAppTheme.colors.background.primary),
-                contentAlignment = Alignment.Center
-            ) {
-                val icon = state.icon ?: Res.drawable.ic_check
-                Icon(
-                    imageVector = vectorResource(icon),
-                    contentDescription = null,
-                    tint = LAppTheme.colors.icon.white
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun SelectableWidget(isSelected: Boolean) {
+fun SelectableWidget(
+    isSelected: Boolean,
+    iconRes: DrawableResource? = null,
+    onClicked: () -> Unit = {}
+) {
     Card(
         modifier = Modifier.size(36.dp),
         shape = CircleShape
@@ -56,7 +35,7 @@ fun SelectableWidget(isSelected: Boolean) {
                     .background(LAppTheme.colors.background.primary),
                 contentAlignment = Alignment.Center
             ) {
-                val icon = Res.drawable.ic_check
+                val icon = iconRes ?: Res.drawable.ic_check
                 Icon(
                     imageVector = vectorResource(icon),
                     contentDescription = null,
@@ -70,5 +49,5 @@ fun SelectableWidget(isSelected: Boolean) {
 @Composable
 @Preview
 fun SelectableWidgetPreview() {
-    SelectableWidget(SelectableWidgetState.INITIAL)
+    SelectableWidget(true)
 }

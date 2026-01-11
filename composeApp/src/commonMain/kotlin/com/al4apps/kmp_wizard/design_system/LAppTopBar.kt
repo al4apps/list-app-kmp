@@ -1,5 +1,7 @@
 package com.al4apps.kmp_wizard.design_system
 
+import androidx.compose.foundation.Indication
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -25,7 +27,13 @@ fun LAppTopBar(
     onActionClick: () -> Unit = {}
 ) {
     TopAppBar(
-        title = { Text(state.title, style = LAppTheme.typography.h2) },
+        title = {
+            Text(
+                state.title,
+                style = LAppTheme.typography.h2,
+                color = LAppTheme.colors.text.primary
+            )
+        },
         navigationIcon = {
             state.navIcon?.let {
                 Icon(
@@ -41,7 +49,12 @@ fun LAppTopBar(
             }
         },
         actions = {
-            Box(modifier = Modifier.padding(end = 16.dp)) {
+            Box(modifier = Modifier.padding(end = 16.dp).clickable(
+                interactionSource = null,
+                enabled = state.isActionClickable,
+                onClick = onActionClick,
+                indication = null
+            )) {
                 state.actionIcon?.let {
                     Icon(
                         painter = painterResource(state.actionIcon),
@@ -55,7 +68,10 @@ fun LAppTopBar(
                     )
                 }
                 state.selectableWidgetState?.let {
-                    SelectableWidget(state = it)
+                    SelectableWidget(
+                        isSelected = it.isSelected,
+                        iconRes = it.icon
+                    )
                 }
             }
         }

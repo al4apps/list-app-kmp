@@ -1,6 +1,7 @@
 package com.al4apps.kmp_wizard
 
 import android.os.Build
+import android.util.Log
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -20,3 +21,6 @@ class AndroidDateTime : DateTime {
 actual fun getPlatform(): Platform = AndroidPlatform()
 actual fun getDateTime(): DateTime = AndroidDateTime()
 
+actual fun logMessage(message: String, tag: String?) {
+    Log.d(tag ?: "LAppLog", message)
+}

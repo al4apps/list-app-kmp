@@ -8,10 +8,10 @@ data class RootListItemUiModel(
 ) {
     companion object Companion {
         val INITIAL = RootListItemUiModel(
-            0,
-            "List 1",
-            "01.01.2026",
-            false
+            id = 0,
+            title = "List 1",
+            date = "01.01.2026",
+            isSelected = false
         )
     }
 }

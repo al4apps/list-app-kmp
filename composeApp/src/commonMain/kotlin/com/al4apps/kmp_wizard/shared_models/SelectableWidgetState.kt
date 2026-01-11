@@ -5,7 +5,7 @@ import kmpwizardproject.composeapp.generated.resources.ic_check
 import org.jetbrains.compose.resources.DrawableResource
 
 data class SelectableWidgetState(
-    val icon: DrawableResource?,
+    val icon: DrawableResource? = null,
     val isSelected: Boolean
 ) {
     companion object {

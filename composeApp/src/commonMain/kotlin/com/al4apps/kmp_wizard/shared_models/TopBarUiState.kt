@@ -7,7 +7,7 @@ data class TopBarUiState(
     val navIcon: DrawableResource?,
     val selectableWidgetState: SelectableWidgetState?,
     val actionIcon: DrawableResource?,
-    val isActionIconClickable: Boolean,
+    val isActionClickable: Boolean,
 ) {
 
     companion object {
@@ -16,7 +16,7 @@ data class TopBarUiState(
             navIcon = null,
             selectableWidgetState = null,
             actionIcon = null,
-            isActionIconClickable = false,
+            isActionClickable = false,
         )
     }
 }

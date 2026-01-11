@@ -2,6 +2,7 @@ package com.al4apps.kmp_wizard
 
 import platform.Foundation.NSDate
 import platform.Foundation.NSDateFormatter
+import platform.Foundation.NSLog
 import platform.UIKit.UIDevice
 
 class IOSPlatform: Platform {
@@ -20,3 +21,5 @@ class IOSDateTime : DateTime {
 
 actual fun getPlatform(): Platform = IOSPlatform()
 actual fun getDateTime(): DateTime = IOSDateTime()
+actual fun logMessage(message: String, tag: String?) {
+}

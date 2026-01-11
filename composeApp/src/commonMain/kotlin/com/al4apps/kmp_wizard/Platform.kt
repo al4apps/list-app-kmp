@@ -10,3 +10,4 @@ interface DateTime {
 
 expect fun getPlatform(): Platform
 expect fun getDateTime(): DateTime
+expect fun logMessage(message: String, tag: String? = null)
