@@ -7,6 +7,7 @@ import com.arkivanov.decompose.DelicateDecomposeApi
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.value.Value
 import kotlinx.serialization.Serializable
@@ -38,9 +39,9 @@ class DefaultListsFeatureComponent(
             )
 
             is NavConfig.List -> ListsFeatureComponent.StackChild.List(
-                DefaultChildListComponent(
-                    componentContext
-                )
+                DefaultChildListComponent(componentContext) {
+                    navigation.pop()
+                }
             )
         }
     }
