@@ -4,7 +4,6 @@ import com.al4apps.kmp_wizard.core.CoroutineFeature
 import com.al4apps.kmp_wizard.core.CoroutineFeatureImpl
 import com.al4apps.kmp_wizard.core.StateStore
 import com.al4apps.kmp_wizard.core.toUiSate
-import com.al4apps.kmp_wizard.logMessage
 import com.al4apps.kmp_wizard.root_list.map.RootListUiAssembler
 import com.al4apps.kmp_wizard.root_list.model.RootListUiState
 import com.al4apps.kmp_wizard.root_list.model.RootListVmState
@@ -21,7 +20,7 @@ class DefaultRootListComponent(
     private val preservedListState = stateKeeper.consume(
         key = STATE_LIST_KEY,
         strategy = RootListVmState.serializer()
-    ) ?: RootListVmState.sample
+    ) ?: RootListVmState.SAMPLE
 
     private val vmState = StateStore(preservedListState)
     override val uiState: Value<RootListUiState> = vmState.toUiSate(
@@ -61,6 +60,6 @@ class DefaultRootListComponent(
     }
 
     companion object {
-        private const val STATE_LIST_KEY = "state_list"
+        private const val STATE_LIST_KEY = "state_root_list"
     }
 }

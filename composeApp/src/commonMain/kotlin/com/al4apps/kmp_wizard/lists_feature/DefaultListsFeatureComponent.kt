@@ -39,9 +39,10 @@ class DefaultListsFeatureComponent(
             )
 
             is NavConfig.List -> ListsFeatureComponent.StackChild.List(
-                DefaultChildListComponent(componentContext) {
-                    navigation.pop()
-                }
+                DefaultChildListComponent(
+                    componentContext = componentContext,
+                    onBackClick = { navigation.pop() }
+                )
             )
         }
     }

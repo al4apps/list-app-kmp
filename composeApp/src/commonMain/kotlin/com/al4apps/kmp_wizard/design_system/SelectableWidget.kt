@@ -13,6 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kmpwizardproject.composeapp.generated.resources.Res
 import kmpwizardproject.composeapp.generated.resources.ic_check
+import kmpwizardproject.composeapp.generated.resources.ic_favorite_selected
+import kmpwizardproject.composeapp.generated.resources.ic_play
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.vectorResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -21,11 +23,12 @@ import ru.expasoft.digitalpictureframe.theme.LAppTheme
 @Composable
 fun SelectableWidget(
     isSelected: Boolean,
+    modifier: Modifier = Modifier,
     iconRes: DrawableResource? = null,
     onClicked: () -> Unit = {}
 ) {
     Card(
-        modifier = Modifier.size(36.dp),
+        modifier = modifier.size(36.dp),
         shape = CircleShape
     ) {
         if (isSelected) {
@@ -47,7 +50,27 @@ fun SelectableWidget(
 }
 
 @Composable
+fun IconWidget(
+    modifier: Modifier = Modifier,
+    iconRes: DrawableResource,
+    onClicked: () -> Unit = {}
+) {
+        Box(
+            modifier = modifier,
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = vectorResource(iconRes),
+                contentDescription = null,
+                tint = LAppTheme.colors.icon.success
+            )
+        }
+
+}
+
+@Composable
 @Preview
 fun SelectableWidgetPreview() {
-    SelectableWidget(true)
+//    SelectableWidget(true)
+    IconWidget(iconRes = Res.drawable.ic_favorite_selected)
 }
