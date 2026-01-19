@@ -100,7 +100,7 @@ fun RootListScreen(component: RootListComponent) {
                 enter = slideInVertically(tween(260), initialOffsetY = { y -> y })
                         + fadeIn(tween(200)),
                 exit = slideOutVertically(tween(220), targetOffsetY = { y -> y })
-                + fadeOut(tween(160))
+                        + fadeOut(tween(160))
             ) {
                 SimpleFAB(
                     vectorRes = Res.drawable.ic_plus,
@@ -163,37 +163,41 @@ fun RootListItemCard(
     onLongClick: (Int) -> Unit = {}
 ) {
     ElevatedCard(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        Box(
+            modifier = Modifier
             .combinedClickable(
                 onClick = { onClick(item.id) },
                 onLongClick = { onLongClick(item.id) }
-            ),
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(80.dp)
-                .padding(16.dp)
+            )
         ) {
-            Column(modifier = Modifier.weight(1f)) {
-                Text(text = item.title, style = LAppTheme.typography.subtitle)
-                Spacer(Modifier.height(12.dp))
-                Text(
-                    text = item.date,
-                    style = LAppTheme.typography.caption,
-                    color = LAppTheme.colors.text.default
-                )
-            }
-
-            Box(
-                modifier = Modifier.fillMaxHeight(),
-                contentAlignment = Alignment.Center
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(80.dp)
+                    .padding(16.dp)
             ) {
-                if (isInSelectionMode) {
-                    SelectableWidget(item.isSelected)
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(text = item.title, style = LAppTheme.typography.subtitle)
+                    Spacer(Modifier.height(12.dp))
+                    Text(
+                        text = item.date,
+                        style = LAppTheme.typography.caption,
+                        color = LAppTheme.colors.text.default
+                    )
+                }
+
+                Box(
+                    modifier = Modifier.fillMaxHeight(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    if (isInSelectionMode) {
+                        SelectableWidget(item.isSelected)
+                    }
                 }
             }
+
         }
     }
 }

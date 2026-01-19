@@ -5,11 +5,10 @@ import org.jetbrains.compose.resources.DrawableResource
 data class ChildListItemUi(
     val id: Long,
     val title: String,
-    val value: String? = null,
-    val subtitle: String? = null,
+    val value: ItemValue,
+    val fields: List<ItemField> = emptyList(),
     val comment: String? = null,
     val isSelected: Boolean = false,
-    val markIcon: DrawableResource? = null,
     val icon: DrawableResource? = null,
     val isExpandedBottom: Boolean = false,
     val expandableInfo: ExpandableInfo? = null,
@@ -18,11 +17,9 @@ data class ChildListItemUi(
         val INITIAL = ChildListItemUi(
             id = 0,
             title = "Title",
-            value = "100",
-            subtitle = null,
+            value = TextValue(""),
             comment = null,
             isSelected = false,
-            markIcon = null,
             icon = null,
             isExpandedBottom = false,
             expandableInfo = null

@@ -38,14 +38,15 @@ import com.al4apps.kmp_wizard.design_system.SelectableWidget
 import com.al4apps.kmp_wizard.design_system.button.SimpleFAB
 import com.al4apps.kmp_wizard.list.ChildListComponent
 import com.al4apps.kmp_wizard.list.model.ChildListItemUi
+import com.al4apps.kmp_wizard.list.model.IconValue
+import com.al4apps.kmp_wizard.list.model.ItemMark
+import com.al4apps.kmp_wizard.list.model.NumberValue
+import com.al4apps.kmp_wizard.list.model.TextValue
 import com.al4apps.kmp_wizard.shared_models.SelectableWidgetState
 import com.al4apps.kmp_wizard.shared_models.TopBarUiState
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import kmpwizardproject.composeapp.generated.resources.Res
 import kmpwizardproject.composeapp.generated.resources.ic_arrow_back
-import kmpwizardproject.composeapp.generated.resources.ic_check
-import kmpwizardproject.composeapp.generated.resources.ic_favorite_selected
-import kmpwizardproject.composeapp.generated.resources.ic_play
 import kmpwizardproject.composeapp.generated.resources.ic_plus
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import ru.expasoft.digitalpictureframe.theme.LAppTheme
@@ -75,6 +76,14 @@ fun ListScreen(component: ChildListComponent) {
         }
     ) {
         Box(modifier = Modifier.padding(it).fillMaxSize()) {
+
+            ChildListGrid(
+                items = uiState.items,
+                isInSelectionMode = uiState.isInSelectionMode,
+                addNumbers = true,
+                onItemClicked = {},
+                onItemLongClicked = {}
+            )
 
             AnimatedVisibility(
                 visible = !uiState.isInSelectionMode,
@@ -108,7 +117,7 @@ fun ChildListGrid(
     ) {
         items(items.size) { index ->
             if (index > 0) {
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(4.dp))
             }
             ChildListItemCard(
                 item = items[index],
@@ -118,7 +127,7 @@ fun ChildListGrid(
                 onLongClick = onItemLongClicked
             )
             if (index == items.lastIndex) {
-                Spacer(modifier = Modifier.height(100.dp))
+                Spacer(modifier = Modifier.height(80.dp))
             }
         }
     }
@@ -143,7 +152,7 @@ fun ChildListItemCard(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(60.dp)
+                .height(54.dp)
                 .padding(horizontal = 10.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -157,7 +166,7 @@ fun ChildListItemCard(
                     shape = CircleShape,
                 ) {
                     Box(
-                        modifier = Modifier.fillMaxSize().padding(4.dp),
+                        modifier = Modifier.fillMaxSize().padding(6.dp),
                         contentAlignment = Alignment.Center
                     ) {
                         Text(text = position.toString(), style = LAppTheme.typography.caption)
@@ -168,7 +177,7 @@ fun ChildListItemCard(
             Column(modifier = Modifier.weight(1f)) {
                 Text(text = item.title, style = LAppTheme.typography.body1)
                 item.comment?.let {
-                    Spacer(Modifier.height(8.dp))
+                    Spacer(Modifier.height(4.dp))
                     Text(
                         text = item.comment,
                         style = LAppTheme.typography.caption,
@@ -182,29 +191,44 @@ fun ChildListItemCard(
                 contentAlignment = Alignment.Center
             ) {
                 if (isInSelectionMode) {
-//                    SelectableWidget(item.isSelected, modifier = Modifier.size(30.dp))
+                    SelectableWidget(item.isSelected, modifier = Modifier.size(30.dp))
                 } else {
                     Box(
                         modifier = Modifier.fillMaxHeight().width(IntrinsicSize.Max),
                         contentAlignment = Alignment.Center
                     ) {
-                        Card(modifier = Modifier.fillMaxHeight().fillMaxWidth().widthIn(min = 60.dp)) {}
+                        Card(
+                            modifier = Modifier.fillMaxHeight().fillMaxWidth().widthIn(min = 60.dp)
+                        ) {}
                         Row(
-                            modifier = Modifier.align(Alignment.Center).padding(horizontal = 8.dp),
+                            modifier = Modifier.align(Alignment.CenterEnd).padding(horizontal = 8.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            item.value?.let {
-                                Text(it, style = LAppTheme.typography.subtitle)
-                                Spacer(modifier = Modifier.width(8.dp))
-                            }
-                            if (item.value != null && item.markIcon != null) {
-                                Spacer(modifier = Modifier.width(4.dp))
-                            }
-                            item.markIcon?.let {
-                                IconWidget(
-                                    modifier = Modifier.padding(start = 4.dp, end = 4.dp),
-                                    iconRes = it,
-                                )
+                            when (item.value) {
+                                is TextValue -> {
+                                    Text(
+                                        item.value.text,
+                                        style = LAppTheme.typography.subtitle,
+                                        color = LAppTheme.colors.text.primary
+                                    )
+                                }
+
+                                is NumberValue -> {
+                                    Text(
+                                        item.value.number.toString(),
+                                        style = LAppTheme.typography.subtitle,
+                                        color = LAppTheme.colors.text.primary
+                                    )
+                                }
+
+                                is IconValue -> {
+                                    IconWidget(
+                                        modifier = Modifier.padding(start = 4.dp, end = 4.dp),
+                                        iconRes = item.value.icon.drawableRes,
+                                    )
+                                }
+
+                                else -> {}
                             }
                         }
                     }
@@ -217,13 +241,12 @@ fun ChildListItemCard(
 @Composable
 @Preview
 fun ListScreenPreview() {
+
     ChildListItemCard(
         ChildListItemUi.INITIAL.copy(
             comment = "Comment sss",
-            value = "+1212",
+            value = NumberValue(10000000),
             isSelected = false,
-            markIcon = Res.drawable.ic_check
-//            markIcon = null
         ),
         position = 1,
         isInSelectionMode = false,

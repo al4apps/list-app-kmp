@@ -8,7 +8,6 @@ import com.al4apps.kmp_wizard.list.map.ChildListUiAssembler
 import com.al4apps.kmp_wizard.list.model.ChildListUiState
 import com.al4apps.kmp_wizard.list.model.ChildListVmState
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.value.MutableValue
 import com.arkivanov.decompose.value.Value
 
 class DefaultChildListComponent(

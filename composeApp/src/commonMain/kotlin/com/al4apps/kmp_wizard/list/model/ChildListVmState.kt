@@ -1,6 +1,7 @@
 package com.al4apps.kmp_wizard.list.model
 
-import com.al4apps.kmp_wizard.utils.childListItemsSample
+import com.al4apps.kmp_wizard.utils.cListSampleIcons
+import com.al4apps.kmp_wizard.utils.childListItemsSampleNumbers
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -27,6 +28,6 @@ data class ChildListVmState(
             enableDeleteConfirmation = true,
             bottomBarState = null
         )
-        val SAMPLE = INITIAL.copy(items = childListItemsSample)
+        val SAMPLE = INITIAL.copy(items = childListItemsSampleNumbers)
     }
 }
