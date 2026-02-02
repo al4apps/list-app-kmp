@@ -6,13 +6,13 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class RootListVmState(
     val list: List<RootListItem>,
+    val isInSelectionMode: Boolean
 ) {
-
-    fun isInSelectionMode() = list.any { it.isSelected }
 
     companion object {
         val INITIAL = RootListVmState(
             list = emptyList(),
+            isInSelectionMode = false
         )
         val SAMPLE = rootListVmStateSample
     }

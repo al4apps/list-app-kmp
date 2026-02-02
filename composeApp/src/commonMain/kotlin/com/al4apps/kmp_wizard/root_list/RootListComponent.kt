@@ -9,4 +9,5 @@ interface RootListComponent {
     fun onItemClick(id: Int)
     fun onItemLongClick(id: Int)
     fun onSelectAllClicked()
+    fun onAddNewListClicked()
 }

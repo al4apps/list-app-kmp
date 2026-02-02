@@ -2,6 +2,7 @@ package com.al4apps.kmp_wizard.home
 
 import com.al4apps.kmp_wizard.home.model.HomeUiState
 import com.al4apps.kmp_wizard.lists_feature.DefaultListsFeatureComponent
+import com.al4apps.kmp_wizard.root_list.domain.ChildListInteractor
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
@@ -10,7 +11,7 @@ import com.arkivanov.decompose.value.Value
 import kotlinx.serialization.Serializable
 
 class DefaultHomeComponent(
-    componentContext: ComponentContext
+    componentContext: ComponentContext,
 ) : HomeComponent, ComponentContext by componentContext {
 
     val navigation = StackNavigation<NavConfig>()
@@ -30,7 +31,11 @@ class DefaultHomeComponent(
     ): HomeComponent.HomeStackChild = when (config) {
 
         is NavConfig.ListsFeature -> {
-            HomeComponent.HomeStackChild.ListsFeature(DefaultListsFeatureComponent(componentContext))
+            HomeComponent.HomeStackChild.ListsFeature(
+                DefaultListsFeatureComponent(
+                componentContext,
+                childListInteractor = ChildListInteractor()
+            ))
         }
 
     }

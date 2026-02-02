@@ -13,6 +13,7 @@ import com.arkivanov.decompose.value.Value
 class DefaultRootListComponent(
     componentContext: ComponentContext,
     private val onItemClicked: (Int) -> Unit,
+    private val initNewList: () -> Unit,
     assembler: RootListUiAssembler = RootListUiAssembler(),
 ) : RootListComponent, ComponentContext by componentContext,
     CoroutineFeature by CoroutineFeatureImpl(componentContext) {
@@ -28,9 +29,13 @@ class DefaultRootListComponent(
         assemble = assembler::assembleToUi
     )
 
+    init {
+        registerStateKeeper()
+    }
+
     override fun onItemClick(id: Int) {
 
-        if (vmState.value.isInSelectionMode()) {
+        if (vmState.value.isInSelectionMode) {
             updateStateWithSelectedItem(id)
         } else {
             onItemClicked(id)
@@ -38,24 +43,46 @@ class DefaultRootListComponent(
     }
 
     override fun onItemLongClick(id: Int) {
-        if (vmState.value.isInSelectionMode()) return
         updateStateWithSelectedItem(id)
     }
 
     private fun updateStateWithSelectedItem(id: Int) {
-        vmState.updateState { state ->
-            val updated = state.list.map { item ->
-                if (item.id == id) item.copy(isSelected = !item.isSelected)
-                else item
+        val updated = vmState.value.list.toMutableList()
+        updated.apply {
+            val index = indexOfFirst { item -> item.id == id }
+            if (index >= 0) {
+                val item = get(index)
+                set(index, item.copy(isSelected = !item.isSelected))
             }
-            state.copy(list = updated)
+        }
+        vmState.updateState { state ->
+            state.copy(
+                list = updated,
+                isInSelectionMode = updated.any { it.isSelected }
+            )
         }
     }
 
     override fun onSelectAllClicked() {
         vmState.updateState { state ->
-            val isAllSelected = state.list.all { it.isSelected }
-            state.copy(list = state.list.map { it.copy(isSelected = !isAllSelected) })
+            val hasAnyUnselected = state.list.any { !it.isSelected }
+            state.copy(
+                list = state.list.map { it.copy(isSelected = hasAnyUnselected) },
+                isInSelectionMode = hasAnyUnselected
+            )
+        }
+    }
+
+    override fun onAddNewListClicked() {
+        initNewList()
+    }
+
+    private fun registerStateKeeper() {
+        stateKeeper.register(
+            key = STATE_LIST_KEY,
+            strategy = RootListVmState.serializer()
+        ) {
+            vmState.value
         }
     }
 

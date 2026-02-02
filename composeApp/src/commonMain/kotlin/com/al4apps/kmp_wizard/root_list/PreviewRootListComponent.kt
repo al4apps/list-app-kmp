@@ -32,4 +32,6 @@ class PreviewRootListComponent : RootListComponent {
     override fun onItemLongClick(id: Int) {}
 
     override fun onSelectAllClicked() {}
+
+    override fun onAddNewListClicked() {}
 }

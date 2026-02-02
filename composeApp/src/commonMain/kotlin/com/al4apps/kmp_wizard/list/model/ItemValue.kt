@@ -7,7 +7,7 @@ sealed class ItemValue
 
 @Serializable
 data class NumberValue(val number: Long, val scale: Int = 0) : ItemValue() {
-    fun toNumString(): String {
+    fun getNumberString(): String {
         val prefix = when {
             number > 0L -> "+"
             number == 0L -> "-"

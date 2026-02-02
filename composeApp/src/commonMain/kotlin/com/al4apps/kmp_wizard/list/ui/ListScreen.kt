@@ -6,7 +6,9 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -23,12 +25,15 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Card
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -37,9 +42,9 @@ import com.al4apps.kmp_wizard.design_system.LAppTopBar
 import com.al4apps.kmp_wizard.design_system.SelectableWidget
 import com.al4apps.kmp_wizard.design_system.button.SimpleFAB
 import com.al4apps.kmp_wizard.list.ChildListComponent
+import com.al4apps.kmp_wizard.list.PreviewChildListComponent
 import com.al4apps.kmp_wizard.list.model.ChildListItemUi
 import com.al4apps.kmp_wizard.list.model.IconValue
-import com.al4apps.kmp_wizard.list.model.ItemMark
 import com.al4apps.kmp_wizard.list.model.NumberValue
 import com.al4apps.kmp_wizard.list.model.TextValue
 import com.al4apps.kmp_wizard.shared_models.SelectableWidgetState
@@ -81,8 +86,8 @@ fun ListScreen(component: ChildListComponent) {
                 items = uiState.items,
                 isInSelectionMode = uiState.isInSelectionMode,
                 addNumbers = true,
-                onItemClicked = {},
-                onItemLongClicked = {}
+                onItemClicked = component::onItemClicked,
+                onItemLongClicked = component::onItemLongClicked
             )
 
             AnimatedVisibility(
@@ -142,16 +147,17 @@ fun ChildListItemCard(
     onLongClick: (Long) -> Unit = {}
 ) {
     ElevatedCard(
-        modifier = Modifier
-            .fillMaxWidth()
-            .combinedClickable(
-                onClick = { onClick(item.id) },
-                onLongClick = { onLongClick(item.id) }
-            ),
+        modifier = Modifier.fillMaxWidth(),
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .combinedClickable(
+                    onClick = { onClick(item.id) },
+                    onLongClick = { onLongClick(item.id) },
+                    indication = ripple(bounded = true),
+                    interactionSource = remember { MutableInteractionSource() }
+                )
                 .height(54.dp)
                 .padding(horizontal = 10.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
@@ -201,7 +207,8 @@ fun ChildListItemCard(
                             modifier = Modifier.fillMaxHeight().fillMaxWidth().widthIn(min = 60.dp)
                         ) {}
                         Row(
-                            modifier = Modifier.align(Alignment.CenterEnd).padding(horizontal = 8.dp),
+                            modifier = Modifier.align(Alignment.CenterEnd)
+                                .padding(horizontal = 8.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             when (item.value) {
@@ -215,7 +222,7 @@ fun ChildListItemCard(
 
                                 is NumberValue -> {
                                     Text(
-                                        item.value.number.toString(),
+                                        item.value.getNumberString(),
                                         style = LAppTheme.typography.subtitle,
                                         color = LAppTheme.colors.text.primary
                                     )
@@ -227,8 +234,6 @@ fun ChildListItemCard(
                                         iconRes = item.value.icon.drawableRes,
                                     )
                                 }
-
-                                else -> {}
                             }
                         }
                     }
@@ -242,14 +247,5 @@ fun ChildListItemCard(
 @Preview
 fun ListScreenPreview() {
 
-    ChildListItemCard(
-        ChildListItemUi.INITIAL.copy(
-            comment = "Comment sss",
-            value = NumberValue(10000000),
-            isSelected = false,
-        ),
-        position = 1,
-        isInSelectionMode = false,
-        {},
-        {})
+    ListScreen(PreviewChildListComponent())
 }

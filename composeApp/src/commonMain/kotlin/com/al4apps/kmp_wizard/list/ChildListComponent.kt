@@ -9,4 +9,6 @@ interface ChildListComponent {
 
     fun onBackClicked()
     fun onSelectAllClicked()
+    fun onItemClicked(id: Long)
+    fun onItemLongClicked(id: Long)
 }

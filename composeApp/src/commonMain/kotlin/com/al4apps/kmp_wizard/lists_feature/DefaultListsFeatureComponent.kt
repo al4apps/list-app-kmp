@@ -1,7 +1,9 @@
 package com.al4apps.kmp_wizard.lists_feature
 
+import com.al4apps.kmp_wizard.core.GlobalConstants
 import com.al4apps.kmp_wizard.list.DefaultChildListComponent
 import com.al4apps.kmp_wizard.root_list.DefaultRootListComponent
+import com.al4apps.kmp_wizard.root_list.domain.ChildListInteractor
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.DelicateDecomposeApi
 import com.arkivanov.decompose.router.stack.ChildStack
@@ -14,6 +16,7 @@ import kotlinx.serialization.Serializable
 
 class DefaultListsFeatureComponent(
     componentContext: ComponentContext,
+    private val childListInteractor: ChildListInteractor
 ) : ListsFeatureComponent, ComponentContext by componentContext {
 
     private val navigation = StackNavigation<NavConfig>()
@@ -33,15 +36,23 @@ class DefaultListsFeatureComponent(
         return when (config) {
 
             is NavConfig.RootList -> ListsFeatureComponent.StackChild.RootList(
-                DefaultRootListComponent(componentContext, onItemClicked = {
-                    navigation.push(NavConfig.List)
-                })
+                component = DefaultRootListComponent(
+                    componentContext = componentContext,
+                    onItemClicked = {
+                        navigation.push(NavConfig.List(0))
+                    },
+                    initNewList = {
+                        navigation.push(NavConfig.List(GlobalConstants.NEW_LIST_ID))
+                    }
+                )
             )
 
             is NavConfig.List -> ListsFeatureComponent.StackChild.List(
                 DefaultChildListComponent(
                     componentContext = componentContext,
-                    onBackClick = { navigation.pop() }
+                    listId = config.id,
+                    onBackClick = { navigation.pop() },
+                    childListInteractor = childListInteractor
                 )
             )
         }
@@ -52,7 +63,7 @@ class DefaultListsFeatureComponent(
     sealed interface NavConfig {
 
         @Serializable
-        data object List : NavConfig
+        data class List(val id: Int) : NavConfig
 
         @Serializable
         data object RootList : NavConfig

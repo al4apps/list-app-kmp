@@ -39,15 +39,15 @@ val rootListVmStateSample = RootListVmState(
         RootListItem(
             9, "List 11", isSelected = false, "08.01.2026"
         ),
-
     ),
+    isInSelectionMode = false
 )
 
 val childListItemsSampleNumbers = listOf(
     ChildListItem(0, "Item 1", isSelected = false, mValue = NumberValue(12L), comment = "Comment 1"),
     ChildListItem(1, "Item 2", isSelected = false, mValue = NumberValue(120L)),
     ChildListItem(2, "Item 3", isSelected = false, mValue = NumberValue(1200L)),
-    ChildListItem(3, "Item 4", isSelected = false, mValue = NumberValue(12000L)),
+    ChildListItem(3, "Item 4", isSelected = false, mValue = NumberValue(1200022L, 2)),
     ChildListItem(4, "Item 5", isSelected = false, mValue = NumberValue(120000L)),
     ChildListItem(5, "Item 6", isSelected = false, mValue = NumberValue(1200000L)),
     ChildListItem(6, "Item 7", isSelected = false, mValue = NumberValue(12000000L)),

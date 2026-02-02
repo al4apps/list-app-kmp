@@ -8,12 +8,12 @@ class NumberValueTest {
 
     fun check(n: Long, scale: Int = 0): String {
         val nValue = NumberValue(n, scale)
-        return nValue.toNumString()
+        return nValue.getNumberString()
     }
 
     @Test
     fun `simple test`() {
-        val result = check(-122L, 2)
-        assertEquals("-1.22", result)
+        val result = check(-1200022, 2)
+        assertEquals("-12000.22", result)
     }
 }

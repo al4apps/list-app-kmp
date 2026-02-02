@@ -13,7 +13,7 @@ class RootListUiAssembler {
 
         return RootListUiState(
             list = items.toImmutableList(),
-            isInSelectionMode = vmState.list.any { it.isSelected },
+            isInSelectionMode = vmState.isInSelectionMode,
             isAllSelected = vmState.list.all { it.isSelected },
             isLoading = false
         )

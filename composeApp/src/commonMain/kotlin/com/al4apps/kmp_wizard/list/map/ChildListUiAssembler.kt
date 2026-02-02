@@ -15,7 +15,7 @@ class ChildListUiAssembler {
                 toUiItem(item)
             }.toImmutableList(),
             isInSelectionMode = state.isInSelectionMode,
-            isAllSelected = state.isAllSelected,
+            isAllSelected = state.items.all { it.isSelected },
             isLoading = state.isLoading,
             showDeleteDialog = state.showDeleteDialog,
             bottomBarState = state.bottomBarState
