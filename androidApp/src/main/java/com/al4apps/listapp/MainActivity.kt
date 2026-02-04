@@ -1,12 +1,10 @@
-package com.al4apps.kmp_wizard
+package com.al4apps.listapp
 
-import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import com.al4apps.kmp_wizard.App
 import com.arkivanov.decompose.defaultComponentContext
 
 class MainActivity : ComponentActivity() {

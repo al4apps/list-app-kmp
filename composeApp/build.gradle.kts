@@ -11,8 +11,10 @@ plugins {
 
 kotlin {
     androidLibrary {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_17)
+        compileSdk = libs.versions.android.compileSdk.get().toInt()
+        namespace = "com.al4apps.listapp"
+        androidResources {
+            enable = true
         }
     }
 
