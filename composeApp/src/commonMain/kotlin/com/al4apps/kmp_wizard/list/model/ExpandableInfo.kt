@@ -4,6 +4,8 @@ import org.jetbrains.compose.resources.DrawableResource
 
 sealed class ExpandableInfo
 
+object ExpandableFields : ExpandableInfo()
+
 data class ExpandableIcons(
     val icon1: DrawableResource,
     val icon2: DrawableResource,

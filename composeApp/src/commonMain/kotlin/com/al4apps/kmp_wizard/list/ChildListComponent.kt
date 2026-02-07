@@ -11,4 +11,6 @@ interface ChildListComponent {
     fun onSelectAllClicked()
     fun onItemClicked(id: Long)
     fun onItemLongClicked(id: Long)
+    fun onItemValueClicked(id: Long)
+    fun onItemFieldClicked(id: Long, fieldTitle: String)
 }

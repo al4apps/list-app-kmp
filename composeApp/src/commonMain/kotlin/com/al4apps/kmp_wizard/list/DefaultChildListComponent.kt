@@ -91,12 +91,33 @@ class DefaultChildListComponent(
         if (vmState.value.isInSelectionMode) {
             updateStateWithSelectedItem(id)
         } else {
+            updateStateWithExpandedItem(id)
+        }
+    }
 
+    private fun updateStateWithExpandedItem(id: Long) {
+        val updated = vmState.value.items.toMutableList().apply {
+            val index = indexOfFirst { item -> item.id == id }
+            if (index >= 0) {
+                val item = this[index]
+                set(index, item.copy(isExpandedValues = !item.isExpandedValues))
+            }
+        }
+        vmState.updateState { state ->
+            state.copy(items = updated)
         }
     }
 
     override fun onBackClicked() {
         this.onBackClick()
+    }
+
+    override fun onItemValueClicked(id: Long) {
+        // TODO: add value click handling
+    }
+
+    override fun onItemFieldClicked(id: Long, fieldTitle: String) {
+        // TODO: add field click handling
     }
 
     private fun registerStateKeeper() {

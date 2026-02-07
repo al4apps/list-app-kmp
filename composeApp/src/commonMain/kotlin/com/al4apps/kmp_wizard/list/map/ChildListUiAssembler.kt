@@ -4,6 +4,7 @@ import com.al4apps.kmp_wizard.list.model.ChildListItem
 import com.al4apps.kmp_wizard.list.model.ChildListItemUi
 import com.al4apps.kmp_wizard.list.model.ChildListUiState
 import com.al4apps.kmp_wizard.list.model.ChildListVmState
+import com.al4apps.kmp_wizard.list.model.ExpandableFields
 import kotlinx.collections.immutable.toImmutableList
 
 class ChildListUiAssembler {
@@ -32,6 +33,7 @@ class ChildListUiAssembler {
             comment = item.comment,
             isSelected = item.isSelected,
             isExpandedBottom = item.isExpandedValues || item.isExpandedActions,
+            expandableInfo = if (item.fields.isNotEmpty()) ExpandableFields else null,
         )
     }
 }

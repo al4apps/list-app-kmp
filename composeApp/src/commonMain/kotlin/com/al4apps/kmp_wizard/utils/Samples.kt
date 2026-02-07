@@ -2,8 +2,10 @@ package com.al4apps.kmp_wizard.utils
 
 import com.al4apps.kmp_wizard.list.model.ChildListItem
 import com.al4apps.kmp_wizard.list.model.IconValue
+import com.al4apps.kmp_wizard.list.model.ItemField
 import com.al4apps.kmp_wizard.list.model.ItemMark
 import com.al4apps.kmp_wizard.list.model.NumberValue
+import com.al4apps.kmp_wizard.list.model.TextValue
 import com.al4apps.kmp_wizard.root_list.model.RootListItem
 import com.al4apps.kmp_wizard.root_list.model.RootListVmState
 
@@ -44,11 +46,40 @@ val rootListVmStateSample = RootListVmState(
 )
 
 val childListItemsSampleNumbers = listOf(
-    ChildListItem(0, "Item 1", isSelected = false, mValue = NumberValue(12L), comment = "Comment 1"),
-    ChildListItem(1, "Item 2", isSelected = false, mValue = NumberValue(120L)),
+    ChildListItem(
+        0,
+        "Item 1",
+        isSelected = false,
+        mValue = NumberValue(12L),
+        comment = "Comment 1",
+        fields = listOf(
+            ItemField("Size", TextValue("Small")),
+            ItemField("Count", NumberValue(5L)),
+        ),
+        isExpandedValues = true
+    ),
+    ChildListItem(
+        1,
+        "Item 2",
+        isSelected = false,
+        mValue = NumberValue(120L),
+        fields = listOf(
+            ItemField("Color", TextValue("Red")),
+            ItemField("Status", TextValue("Active")),
+        )
+    ),
     ChildListItem(2, "Item 3", isSelected = false, mValue = NumberValue(1200L)),
     ChildListItem(3, "Item 4", isSelected = false, mValue = NumberValue(1200022L, 2)),
-    ChildListItem(4, "Item 5", isSelected = false, mValue = NumberValue(120000L)),
+    ChildListItem(
+        4,
+        "Item 5",
+        isSelected = false,
+        mValue = NumberValue(120000L),
+        fields = listOf(
+            ItemField("Owner", TextValue("Alex")),
+            ItemField("Budget", NumberValue(125000L)),
+        )
+    ),
     ChildListItem(5, "Item 6", isSelected = false, mValue = NumberValue(1200000L)),
     ChildListItem(6, "Item 7", isSelected = false, mValue = NumberValue(12000000L)),
     ChildListItem(7, "Item 8", isSelected = false, mValue = NumberValue(120000000L)),
